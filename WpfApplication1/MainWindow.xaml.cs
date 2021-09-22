@@ -26,6 +26,7 @@ namespace WpfApplication1
         int x;
         int y;
         Malla matriz_celdas= new Malla();
+      // Malla matriz_espejo = new Malla();
        
       
 
@@ -74,7 +75,7 @@ namespace WpfApplication1
             {
                 x = Convert.ToInt32(TextBoxX.Text);
                 y = Convert.ToInt32(TextBoxY.Text);
-                matriz_celdas.SetNumeroDeFilasYColumnas(y, x);
+                matriz_celdas.SetNumeroDeFilasYColumnas(y, x);  // es crea matriu i somple de cell
             }
             catch
             {

@@ -15,7 +15,8 @@ namespace WpfApplication2
 
         int numeroTotalDeVivos;
         int contadorVecinosVivos;
-        Celda[,] matriz_malla;
+        Celda[,] matriz_malla; // matriz_malla_Clone =matriz_malla
+        Celda[,] matriz_malla_Clone; //matriz espejo
 
         Normas norma1 = new Normas(); //   MIRAR
 
@@ -24,6 +25,20 @@ namespace WpfApplication2
             return this.matriz_malla;
         }
 
+        public void ClonarMatrix()
+        {
+            
+               for (int i = 0; i < x; i++)
+                   for (int j = 0; j < y; j++)
+                   {
+                       {
+
+                           matriz_malla_Clone[j, i].SetVida(matriz_malla[j, i].GetVida());
+                          // matriz_malla_Clone[j, i].SetVecinosVivos(matriz_malla[j, i].GetVecinosVivos()); // clonem 0 ja que no hem contat els veins encara
+                       }
+                   }
+
+        }
 
         public void SetNumeroDeFilasYColumnas(int fila, int columna)
         {
@@ -31,6 +46,7 @@ namespace WpfApplication2
             this.x = columna;
             
             this.matriz_malla = new Celda [y, x];
+            this.matriz_malla_Clone = new Celda[y, x];
 
            
            // fill.SetVida(false);  // mitrara treure esta a celda
@@ -39,8 +55,10 @@ namespace WpfApplication2
                 for (int j = 0; j < x; j++)
                 {{
                     Celda fill = new Celda(); // rellenamos la matriz con celdas
+                    Celda fill_clone = new Celda(); // rellenamos la matriz con celdas
+                    
                     matriz_malla[i,j]=fill;
-
+                    matriz_malla_Clone[i, j] = fill_clone;
                 }}
  
         }
@@ -68,7 +86,7 @@ namespace WpfApplication2
             {
                 for (int j = 0; i < y; j++)
                 {
-                    if (matriz_malla[j, i].GetVida() == true) ;
+                    if (matriz_malla[j, i].GetVida() == true);
                     numeroTotalDeVivos++;
                 }
             }
@@ -82,7 +100,7 @@ namespace WpfApplication2
             contadorVecinosVivos = 0;
             try
             {
-                if (matriz_malla[Fila - 1, Columna].GetVida() == true)
+                if (matriz_malla_Clone[Fila - 1, Columna].GetVida() == true)
                 {
                     contadorVecinosVivos++;
                 }
@@ -93,43 +111,7 @@ namespace WpfApplication2
 
             try
             {
-                if (matriz_malla[Fila + 1, Columna].GetVida() == true)
-                {
-                    contadorVecinosVivos++;
-                }
-
-            }
-
-            catch
-            { }
-
-            try
-            {
-                if (matriz_malla[Fila - 1, Columna + 1].GetVida() == true)
-                {
-                    contadorVecinosVivos++;
-                }
-            }
-
-            catch
-            { }
-
-
-            try
-            {
-                if (matriz_malla[Fila, Columna + 1].GetVida() == true)
-                {
-                    contadorVecinosVivos++;
-                }
-            }
-
-            catch
-            { }
-
-
-            try
-            {
-                if (matriz_malla[Fila + 1, Columna + 1].GetVida() == true)
+                if (matriz_malla_Clone[Fila + 1, Columna].GetVida() == true)
                 {
                     contadorVecinosVivos++;
                 }
@@ -141,7 +123,43 @@ namespace WpfApplication2
 
             try
             {
-                if (matriz_malla[Fila - 1, Columna - 1].GetVida() == true)
+                if (matriz_malla_Clone[Fila - 1, Columna + 1].GetVida() == true)
+                {
+                    contadorVecinosVivos++;
+                }
+            }
+
+            catch
+            { }
+
+
+            try
+            {
+                if (matriz_malla_Clone[Fila, Columna + 1].GetVida() == true)
+                {
+                    contadorVecinosVivos++;
+                }
+            }
+
+            catch
+            { }
+
+
+            try
+            {
+                if (matriz_malla_Clone[Fila + 1, Columna + 1].GetVida() == true)
+                {
+                    contadorVecinosVivos++;
+                }
+
+            }
+
+            catch
+            { }
+
+            try
+            {
+                if (matriz_malla_Clone[Fila - 1, Columna - 1].GetVida() == true)
                 {
                     contadorVecinosVivos++;
                 }
@@ -152,7 +170,7 @@ namespace WpfApplication2
             { }
             try
             {
-                if (matriz_malla[Fila, Columna - 1].GetVida() == true)
+                if (matriz_malla_Clone[Fila, Columna - 1].GetVida() == true)
                 {
                     contadorVecinosVivos++;
                 }
@@ -163,7 +181,7 @@ namespace WpfApplication2
 
             try
             {
-                if (matriz_malla[Fila + 1, Columna - 1].GetVida() == true)
+                if (matriz_malla_Clone[Fila + 1, Columna - 1].GetVida() == true)
                 {
                     contadorVecinosVivos++;
                 }
@@ -184,14 +202,19 @@ namespace WpfApplication2
 
         public void MallaFutura()
         {
-            
-            for (int i = 1; i < x; i++)
+            ClonarMatrix();
+
+            for (int i = 0; i < x; i++)
             {
-                for (int j = 1; j < y; j++)
+                for (int j = 0; j < y; j++)
                 {
 
-                    matriz_malla[j, i].SetVecinosVivos(NumeroDeVecinosVivos(j, i));
-                    matriz_malla[j, i].ActualizarCelda();
+                    matriz_malla_Clone[j, i].SetVecinosVivos(NumeroDeVecinosVivos(j, i));  // gusrada # de veisn en el clone  
+
+                    
+                    // origin te valor viu mort // clone te vius i veins
+
+                    matriz_malla[j, i].ActualizarCelda(matriz_malla_Clone[j,i].GetVida(), matriz_malla_Clone[j,i].GetVecinosVivos()); //need clonar
                   
                 }
             }

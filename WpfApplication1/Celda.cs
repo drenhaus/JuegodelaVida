@@ -28,9 +28,16 @@ namespace WpfApplication1
         public void SetVecinosVivos(int num)
         { this.vecinos_vivos = num; }
 
-        public void ActualizarCelda()
+        public int GetVecinosVivos()
+        { return (this.vecinos_vivos); }
+
+        public void ActualizarCelda(bool Viva, int numVecinosVivos)
         {
-            this.viva = norma1.ActualizarVida(this.viva, this.vecinos_vivos);
+
+            this.viva = norma1.ActualizarVida(Viva, numVecinosVivos);
+
+
+
         }
 
     }
