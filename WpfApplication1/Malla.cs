@@ -32,7 +32,8 @@ namespace WpfApplication2
                    for (int j = 0; j < y; j++)
                    {
                        {
-
+                           Celda fill_clone = new Celda(); // rellenamos la matriz con celdas
+                           matriz_malla_Clone[j, i] = fill_clone;
                            matriz_malla_Clone[j, i].SetVida(matriz_malla[j, i].GetVida());
                           // matriz_malla_Clone[j, i].SetVecinosVivos(matriz_malla[j, i].GetVecinosVivos()); // clonem 0 ja que no hem contat els veins encara
                        }
@@ -57,6 +58,7 @@ namespace WpfApplication2
                     Celda fill = new Celda(); // rellenamos la matriz con celdas
                     Celda fill_clone = new Celda(); // rellenamos la matriz con celdas
                     
+
                     matriz_malla[i,j]=fill;
                     matriz_malla_Clone[i, j] = fill_clone;
                 }}
