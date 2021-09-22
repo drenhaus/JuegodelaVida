@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NormasJuego;
 using WpfApplication1;
+using System.IO;
 
 namespace WpfApplication2
 {
@@ -27,7 +28,7 @@ namespace WpfApplication2
 
         public void ClonarMatrix()
         {
-            
+            matriz_malla_Clone=new Celda[y,x];
                for (int i = 0; i < y; i++)
                    for (int j = 0; j < x; j++)
                    {
@@ -40,6 +41,9 @@ namespace WpfApplication2
                    }
 
         }
+
+        public Celda[,] GetClon()
+        { return this.matriz_malla_Clone; }
 
         public void SetNumeroDeFilasYColumnas(int fila, int columna)
         {
@@ -194,7 +198,7 @@ namespace WpfApplication2
             { }
 
             return contadorVecinosVivos;
-           // matriz_malla[Fila, Columna].SetVecinosVivos(contadorVecinosVivos);
+           //matriz_malla[Fila, Columna].SetVecinosVivos(contadorVecinosVivos);
            //norma1.SetVecinosVivos(contadorVecinosVivos);
             
 
@@ -212,16 +216,47 @@ namespace WpfApplication2
                 {
 
                     matriz_malla_Clone[i, j].SetVecinosVivos(NumeroDeVecinosVivos(i, j));  // gusrada # de veisn en el clone  
-
-                    
+                
                     // origin te valor viu mort // clone te vius i veins
 
                     matriz_malla[i, j].ActualizarCelda(matriz_malla_Clone[i, j].GetVida(), matriz_malla_Clone[i, j].GetVecinosVivos()); //need clonar
-                  
+                    
                 }
+            }
+            
+
+        }
+
+        public int GuardarSimulacion(string nombre)
+        {
+            try
+            {
+                StreamWriter w = new StreamWriter(nombre);
+                for (int j = 0; j < y; j++)
+                {
+                    for (int i = 0; i < x; i++)
+                    {
+                        if (DameElEstadoDe(j, i) == true)
+                        {
+                            w.WriteLine(1);
+                        }
+                        else
+                        {
+                            w.WriteLine(0);
+                        }
+                    }
+                }
+                w.Close();
+                return 0;
+            }
+            catch (Exception)
+            {
+                return -1;
             }
 
         }
+
+    
     }
 
 }
