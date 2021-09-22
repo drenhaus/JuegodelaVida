@@ -16,6 +16,7 @@ using NormasJuego;
 using WpfApplication2;
 using System.IO;
 using Microsoft.Win32;
+using System.Windows.Threading;
 
 namespace WpfApplication1
 {
@@ -29,8 +30,11 @@ namespace WpfApplication1
         int y;  //filas
         Malla matriz_celdas= new Malla();
       // Malla matriz_espejo = new Malla();
-       
-      
+
+        List<Malla> historial = new List<Malla>();
+        DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+
+
 
         public MainWindow()
         {
@@ -40,29 +44,31 @@ namespace WpfApplication1
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e) // mostrar reglas
         {
-
+            Form1 lc = new Form1();
+            lc.ShowDialog();
         }
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e) // guardar fichero
         {
-            // Configurar la ventana de guardado
-            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-            dlg.FileName = "Simulación"; // Nombre del fichero por defecto
-            dlg.DefaultExt = ".txt"; // Extension del fichero por defecto
-            dlg.Filter = "Text documents (.txt)|*.txt"; // Para filtrar ficheros por extensión
 
-            // Para saber si se puede guardar correctamente
+            // Configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Simulación"; // Default file name
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+
+            // Show save file dialog box
             Nullable<bool> result = dlg.ShowDialog();
 
-            // Guardado del fichero
+            // Process save file dialog box results
             if (result == true)
             {
-                // Guardar documento
+                // Save document
                 string filename = dlg.FileName;
                 int n = matriz_celdas.GuardarSimulacion(filename);
                 if (n == 0)
@@ -72,34 +78,12 @@ namespace WpfApplication1
             }
             else
             { MessageBox.Show("No ha sido posible guardar la simulación"); }
+
+
+
         }
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e) // cargar fichero
-        {
-            try
-            {
-                OpenFileDialog ofd = new OpenFileDialog();
-                ofd.Multiselect = true;
-                ofd.Filter = "Text documents (.txt)|*.txt";
-                Nullable<bool> result = ofd.ShowDialog();
 
-                if (result == true)
-                {
-                    // Cargar documento
-                    string filename = ofd.FileName;
-                    Malla matriz = matriz_celdas.CargarSimulacion(filename);
-                    matriz_celdas = matriz;
-                    MessageBox.Show("Fichero cargado con éxito!");
-                }
-                else
-                { MessageBox.Show("No ha sido posible cargar la simulación"); }
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
 
         private void rectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -107,8 +91,8 @@ namespace WpfApplication1
             a.Fill = new SolidColorBrush(Colors.Black);
             Point p = (Point)a.Tag;
             matriz_celdas.SetVidaDeCelda(Convert.ToInt32(p.Y), Convert.ToInt32(p.X), true);
-            
-          
+
+                     
 
         } // pintar de negro las seleccionadas
 
@@ -116,6 +100,10 @@ namespace WpfApplication1
         private void button3_Click(object sender, RoutedEventArgs e) // crear rejilla
         {
             button1.IsEnabled = true;
+            button2.IsEnabled = true;
+            button4.IsEnabled = true;
+            button5.IsEnabled = true;
+
             try
             {
                 x = Convert.ToInt32(TextBoxX.Text);
@@ -130,9 +118,13 @@ namespace WpfApplication1
                 y = 10;
                 matriz_celdas.SetNumeroDeFilasYColumnas(y, x);
             }
-                     
-         
 
+            generarMalla();
+            
+        }
+
+        private void generarMalla()
+        {
             casillas = new Rectangle[y, x];
 
             canvas1.Height = y * 15;
@@ -160,6 +152,52 @@ namespace WpfApplication1
                     casillas[i, j] = b;
                 }
 
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
+
+                    if (matriz_celdas.DameElEstadoDe(i,j) == false)
+                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Gray); }
+                    if (matriz_celdas.DameElEstadoDe(i, j) == true)
+                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Black); }
+
+                }
+            }
+        }
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e) // cargar fichero
+        {
+          //  try
+          //  {
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Multiselect = true;
+                ofd.Filter = "Text documents (.txt)|*.txt";
+                Nullable<bool> result = ofd.ShowDialog();
+
+                if (result == true)
+                {
+                    // Cargar documento
+                    string filename = ofd.FileName;
+                    Malla matriz = matriz_celdas.CargarSimulacion(filename);
+                    matriz_celdas = matriz;
+                    x = matriz_celdas.getX();
+                    y = matriz_celdas.getY();
+                    generarMalla();
+                    MessageBox.Show("Fichero cargado con éxito!");
+                }
+                else
+                { MessageBox.Show("No ha sido posible cargar la simulación"); }
+          //  }
+
+          //  catch (Exception ex)
+          //  {
+           //     MessageBox.Show(ex.Message);
+          //  }
+                button1.IsEnabled = true;
+                button2.IsEnabled = true;
+                button4.IsEnabled = true;
+                button5.IsEnabled = true;
 
 
         }
@@ -168,17 +206,19 @@ namespace WpfApplication1
         {
 
 
-            matriz_celdas.MallaFutura(); // actualizamos
+            historial.Add(matriz_celdas);
+            historial.Last().MallaFutura(); // actualizamos
+
 
             // volvemos a pintar los rectangulos
             for (int i = 0; i < y; i++)
             {
                 for (int j = 0; j < x; j++)
                 {
- 
-                    if (matriz_celdas.DameElEstadoDe(i,j) == false)
+
+                    if (historial.Last().DameElEstadoDe(i, j) == false)
                     { casillas[i, j].Fill = new SolidColorBrush(Colors.Gray); }
-                    if (matriz_celdas.DameElEstadoDe(i, j) == true)
+                    if (historial.Last().DameElEstadoDe(i, j) == true)
                     { casillas[i, j].Fill = new SolidColorBrush(Colors.Black); }
 
                 }
@@ -186,6 +226,61 @@ namespace WpfApplication1
 
 
         }
+
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            historial.Add(matriz_celdas);
+            historial.Last().MallaFutura(); // actualizamos
+
+
+            // volvemos a pintar los rectangulos
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
+
+                    if (historial.Last().DameElEstadoDe(i, j) == false)
+                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Gray); }
+                    if (historial.Last().DameElEstadoDe(i, j) == true)
+                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Black); }
+
+                }
+            }
+        }
+        
+        
+        private void button2_Click(object sender, RoutedEventArgs e) // simulación automatica
+        {
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
+
+        }
+
+        private void button4_Click(object sender, RoutedEventArgs e) // stop
+        {
+            dispatcherTimer.Stop();
+        }
+
+        private void button5_Click(object sender, RoutedEventArgs e) //restart
+        {
+            List<Malla> reset_historial = new List<Malla>();
+            historial = reset_historial;
+
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
+
+
+                    casillas[i, j].Fill = new SolidColorBrush(Colors.Gray);
+
+                }
+            }
+        }
+
+        
     }
 }
 
