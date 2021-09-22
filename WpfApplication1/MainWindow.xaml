@@ -16,7 +16,7 @@
                         </MenuItem.Icon>
                        </MenuItem>
 
-                    <MenuItem Header="Cargar fichero" Click="MenuItem_Click_3">
+                    <MenuItem Header="Cargar fixero" Click="MenuItem_Click_3">
                         <MenuItem.Icon>
                             <Image Source="/icons/load.png" />
                         </MenuItem.Icon>
@@ -34,6 +34,7 @@
             <Button Canvas.Left="6" Canvas.Top="76" Content="Crear " Height="21" Name="button3" Width="133" Click="button3_Click" />
             <Canvas Height="252" Name="canvas1" Width="305" Canvas.Left="62" Canvas.Top="135" />
             <Button Canvas.Left="234" Canvas.Top="13" Content="Simular paso a paso" Height="23" Name="button1" Width="133" Visibility="Visible" Click="button1_Click" IsEnabled="False" />
+            <Button Canvas.Left="234" Canvas.Top="47" Content="Simulación automática" Height="23" IsEnabled="False" Name="button2" Visibility="Visible" Width="133" Click="button2_Click" />
         </Canvas>
     </Grid>
     

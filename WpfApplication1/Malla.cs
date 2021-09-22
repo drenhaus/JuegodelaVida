@@ -28,7 +28,7 @@ namespace WpfApplication2
 
         public void ClonarMatrix()
         {
-            
+            matriz_malla_Clone=new Celda[y,x];
                for (int i = 0; i < y; i++)
                    for (int j = 0; j < x; j++)
                    {
@@ -41,6 +41,9 @@ namespace WpfApplication2
                    }
 
         }
+
+        public Celda[,] GetClon()
+        { return this.matriz_malla_Clone; }
 
         public void SetNumeroDeFilasYColumnas(int fila, int columna)
         {
@@ -195,7 +198,7 @@ namespace WpfApplication2
             { }
 
             return contadorVecinosVivos;
-           // matriz_malla[Fila, Columna].SetVecinosVivos(contadorVecinosVivos);
+           //matriz_malla[Fila, Columna].SetVecinosVivos(contadorVecinosVivos);
            //norma1.SetVecinosVivos(contadorVecinosVivos);
             
 
@@ -213,14 +216,14 @@ namespace WpfApplication2
                 {
 
                     matriz_malla_Clone[i, j].SetVecinosVivos(NumeroDeVecinosVivos(i, j));  // gusrada # de veisn en el clone  
-
-                    
+                
                     // origin te valor viu mort // clone te vius i veins
 
                     matriz_malla[i, j].ActualizarCelda(matriz_malla_Clone[i, j].GetVida(), matriz_malla_Clone[i, j].GetVecinosVivos()); //need clonar
-                  
+                    
                 }
             }
+            
 
         }
 
@@ -233,16 +236,39 @@ namespace WpfApplication2
                 {
                     for (int i = 0; i < x; i++)
                     {
-                        if (DameElEstadoDe(j, i) == true)
+
+                        if (i == x - 1)
                         {
-                            w.Write(1 + " ");
+                            if (DameElEstadoDe(j, i) == true)
+                            {
+                                w.Write(1);
+                            }
+                            else
+                            {
+                                w.Write(0);
+                            }
                         }
                         else
                         {
-                            w.Write(0 + " ");
+                            if (DameElEstadoDe(j, i) == true)
+                            {
+                                w.Write(1 + " ");
+                            }
+                            else
+                            {
+                                w.Write(0 + " ");
+                            }
                         }
+
+
                     }
-                    w.Write('\n');
+                    if (j == y - 1)
+                    { }
+                    else
+                    {
+                        w.Write('\n');
+                    }
+
                 }
                 w.Close();
                 return 0;
@@ -253,10 +279,11 @@ namespace WpfApplication2
             }
 
         }
-
+        
         public Malla CargarSimulacion(string name)
         {
             Malla matriz_celdas = new Malla();
+
             StreamReader sr = new StreamReader(name);
             int i = 0;
             string linea = sr.ReadLine();
@@ -267,26 +294,30 @@ namespace WpfApplication2
                 linea = sr.ReadLine();
             }
             sr.Close();
-            matriz_celdas.SetNumeroDeFilasYColumnas(i,(trozos.Length - 1));
+
+            matriz_celdas.SetNumeroDeFilasYColumnas(i, trozos.Length);
 
             StreamReader f = new StreamReader(name);
             string line = f.ReadLine();
             int h = 0;
             while (line != null)
             {
+                
                 string[] traces = line.Split(' ');
                 for (int j = 0; j < traces.Length - 1; j++)
                 {
                     if (Convert.ToInt32(traces[j]) == 0)
-                    {matriz_celdas.SetVidaDeCelda(h, j,false);}
-                    else 
-                    {matriz_celdas.SetVidaDeCelda(h, j,true);}
+                    { matriz_celdas.SetVidaDeCelda(h, j, false); }
+                    else
+                    { matriz_celdas.SetVidaDeCelda(h, j, true); }
                 }
-                h++;
+
+             h++;
             }
             f.Close();
             return matriz_celdas;
         }
+    
     }
 
 }
