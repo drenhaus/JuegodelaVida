@@ -298,25 +298,28 @@ namespace WpfApplication2
             matriz_celdas.SetNumeroDeFilasYColumnas(i, trozos.Length);
 
             StreamReader f = new StreamReader(name);
-            string line = f.ReadLine();
-            int h = 0;
+            
+            string line = f.ReadLine();    // 1 0
+            int h = 0;                     // 0 1
             while (line != null)
             {
                 
                 string[] traces = line.Split(' ');
-                for (int j = 0; j < traces.Length - 1; j++)
+                for (int j = 0; j < traces.Length; j++)
                 {
                     if (Convert.ToInt32(traces[j]) == 0)
                     { matriz_celdas.SetVidaDeCelda(h, j, false); }
                     else
                     { matriz_celdas.SetVidaDeCelda(h, j, true); }
                 }
+                line = f.ReadLine();
 
              h++;
             }
             f.Close();
             return matriz_celdas;
         }
+
     
     }
 

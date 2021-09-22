@@ -161,6 +161,8 @@ namespace WpfApplication1
                     Malla matriz = matriz_celdas.CargarSimulacion(filename);
                     matriz_celdas = matriz;
                     MessageBox.Show("Fichero cargado con éxito!");
+
+
                 }
                 else
                 { MessageBox.Show("No ha sido posible cargar la simulación"); }
