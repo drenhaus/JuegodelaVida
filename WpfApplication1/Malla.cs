@@ -9,7 +9,7 @@ namespace WpfApplication2
 {
     class Malla
     {
-        int x=0; //numero de colummnas
+        int x=0; //numero de colummnas   //
         int y=0; //numero de filas
 
 
@@ -28,8 +28,8 @@ namespace WpfApplication2
         public void ClonarMatrix()
         {
             
-               for (int i = 0; i < x; i++)
-                   for (int j = 0; j < y; j++)
+               for (int i = 0; i < y; i++)
+                   for (int j = 0; j < x; j++)
                    {
                        {
                            Celda fill_clone = new Celda(); // rellenamos la matriz con celdas
@@ -59,8 +59,8 @@ namespace WpfApplication2
                     Celda fill_clone = new Celda(); // rellenamos la matriz con celdas
                     
 
-                    matriz_malla[i,j]=fill;
-                    matriz_malla_Clone[i, j] = fill_clone;
+                    matriz_malla[j,i]=fill;
+                    matriz_malla_Clone[j, i] = fill_clone;
                 }}
  
         }
@@ -84,9 +84,9 @@ namespace WpfApplication2
         public int GetNumeroDeVivosDeLaMatriz()
         {
             numeroTotalDeVivos = 0;
-            for (int i = 0; i < x; i++)
+            for (int i = 0; i < y; i++)
             {
-                for (int j = 0; i < y; j++)
+                for (int j = 0; i < x; j++)
                 {
                     if (matriz_malla[j, i].GetVida() == true);
                     numeroTotalDeVivos++;
@@ -206,9 +206,9 @@ namespace WpfApplication2
         {
             ClonarMatrix();
 
-            for (int i = 0; i < x; i++)
+            for (int i = 0; i < y; i++)
             {
-                for (int j = 0; j < y; j++)
+                for (int j = 0; j < x; j++)
                 {
 
                     matriz_malla_Clone[j, i].SetVecinosVivos(NumeroDeVecinosVivos(j, i));  // gusrada # de veisn en el clone  

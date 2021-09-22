@@ -23,8 +23,8 @@ namespace WpfApplication1
 
 
         Rectangle[,] casillas; // Matriz donde guardaremos todos los rectangulos para poder recorrerlos
-        int x;
-        int y;
+        int x;  //columnas
+        int y;  //filas
         Malla matriz_celdas= new Malla();
       // Malla matriz_espejo = new Malla();
        
@@ -61,7 +61,7 @@ namespace WpfApplication1
             Rectangle a = (Rectangle)sender;
             a.Fill = new SolidColorBrush(Colors.Black);
             Point p = (Point)a.Tag;
-            matriz_celdas.SetVidaDeCelda(Convert.ToInt32(p.X), Convert.ToInt32(p.Y), true);
+            matriz_celdas.SetVidaDeCelda(Convert.ToInt32(p.Y), Convert.ToInt32(p.X), true);
             
           
 
@@ -110,7 +110,7 @@ namespace WpfApplication1
 
                     b.MouseDown += new MouseButtonEventHandler(rectangle_MouseDown);
 
-                    casillas[i, j] = b;
+                    casillas[j, i] = b;
                 }
 
 
@@ -129,10 +129,10 @@ namespace WpfApplication1
                 for (int j = 0; j < x; j++)
                 {
  
-                    if (matriz_celdas.DameElEstadoDe(i,j) == false)
-                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Gray); }
-                    if (matriz_celdas.DameElEstadoDe(i, j) == true)
-                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Black); }
+                    if (matriz_celdas.DameElEstadoDe(j,i) == false)
+                    { casillas[j, i].Fill = new SolidColorBrush(Colors.Gray); }
+                    if (matriz_celdas.DameElEstadoDe(j, i) == true)
+                    { casillas[j, i].Fill = new SolidColorBrush(Colors.Black); }
 
                 }
             }
