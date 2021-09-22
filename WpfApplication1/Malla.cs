@@ -26,6 +26,17 @@ namespace WpfApplication2
             return this.matriz_malla;
         }
 
+        public int getX()
+        {
+            return x;
+        }
+
+        public int getY()
+        {
+            return y;
+        }
+
+
         public void ClonarMatrix()
         {
             matriz_malla_Clone=new Celda[y,x];
@@ -92,7 +103,7 @@ namespace WpfApplication2
             {
                 for (int j = 0; i < x; j++)
                 {
-                    if (matriz_malla[i, j].GetVida() == true);
+                    if (matriz_malla[i, j].GetVida() == true)
                     numeroTotalDeVivos++;
                 }
             }

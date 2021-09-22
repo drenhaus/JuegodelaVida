@@ -111,9 +111,13 @@ namespace WpfApplication1
                 y = 10;
                 matriz_celdas.SetNumeroDeFilasYColumnas(y, x);
             }
-                     
-         
 
+            generarMalla();
+            
+        }
+
+        private void generarMalla()
+        {
             casillas = new Rectangle[y, x];
 
             canvas1.Height = y * 15;
@@ -141,8 +145,18 @@ namespace WpfApplication1
                     casillas[i, j] = b;
                 }
 
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
 
+                    if (matriz_celdas.DameElEstadoDe(i,j) == false)
+                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Gray); }
+                    if (matriz_celdas.DameElEstadoDe(i, j) == true)
+                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Black); }
 
+                }
+            }
         }
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e) // cargar fichero
@@ -160,9 +174,10 @@ namespace WpfApplication1
                     string filename = ofd.FileName;
                     Malla matriz = matriz_celdas.CargarSimulacion(filename);
                     matriz_celdas = matriz;
+                    x = matriz_celdas.getX();
+                    y = matriz_celdas.getY();
+                    generarMalla();
                     MessageBox.Show("Fichero cargado con éxito!");
-
-
                 }
                 else
                 { MessageBox.Show("No ha sido posible cargar la simulación"); }
