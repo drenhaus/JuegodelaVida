@@ -76,11 +76,13 @@ namespace WpfApplication1
                 x = Convert.ToInt32(TextBoxX.Text);
                 y = Convert.ToInt32(TextBoxY.Text);
                 matriz_celdas.SetNumeroDeFilasYColumnas(y, x);  // es crea matriu i somple de cell
+
             }
             catch
             {
+
                 x = 10;
-                y=10;
+                y = 10;
                 matriz_celdas.SetNumeroDeFilasYColumnas(y, x);
             }
                      
@@ -106,11 +108,11 @@ namespace WpfApplication1
                     // Posicion del cuadrado
                     Canvas.SetTop(b, (i - 1) * 15);
                     Canvas.SetLeft(b, (j - 1) * 15);
-                    b.Tag = new Point(i, j);
+                    b.Tag = new Point(j, i);
 
                     b.MouseDown += new MouseButtonEventHandler(rectangle_MouseDown);
 
-                    casillas[j, i] = b;
+                    casillas[i, j] = b;
                 }
 
 
@@ -129,10 +131,10 @@ namespace WpfApplication1
                 for (int j = 0; j < x; j++)
                 {
  
-                    if (matriz_celdas.DameElEstadoDe(j,i) == false)
-                    { casillas[j, i].Fill = new SolidColorBrush(Colors.Gray); }
-                    if (matriz_celdas.DameElEstadoDe(j, i) == true)
-                    { casillas[j, i].Fill = new SolidColorBrush(Colors.Black); }
+                    if (matriz_celdas.DameElEstadoDe(i,j) == false)
+                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Gray); }
+                    if (matriz_celdas.DameElEstadoDe(i, j) == true)
+                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Black); }
 
                 }
             }

@@ -33,8 +33,8 @@ namespace WpfApplication2
                    {
                        {
                            Celda fill_clone = new Celda(); // rellenamos la matriz con celdas
-                           matriz_malla_Clone[j, i] = fill_clone;
-                           matriz_malla_Clone[j, i].SetVida(matriz_malla[j, i].GetVida());
+                           matriz_malla_Clone[i, j] = fill_clone;
+                           matriz_malla_Clone[i, j].SetVida(matriz_malla[i, j].GetVida());
                           // matriz_malla_Clone[j, i].SetVecinosVivos(matriz_malla[j, i].GetVecinosVivos()); // clonem 0 ja que no hem contat els veins encara
                        }
                    }
@@ -46,8 +46,8 @@ namespace WpfApplication2
             this.y = fila;
             this.x = columna;
             
-            this.matriz_malla = new Celda [y, x];
-            this.matriz_malla_Clone = new Celda[y, x];
+            this.matriz_malla = new Celda [y,x];
+            this.matriz_malla_Clone = new Celda[y,x];
 
            
            // fill.SetVida(false);  // mitrara treure esta a celda
@@ -57,10 +57,10 @@ namespace WpfApplication2
                 {{
                     Celda fill = new Celda(); // rellenamos la matriz con celdas
                     Celda fill_clone = new Celda(); // rellenamos la matriz con celdas
-                    
 
-                    matriz_malla[j,i]=fill;
-                    matriz_malla_Clone[j, i] = fill_clone;
+
+                    matriz_malla[i,j] = fill;
+                    matriz_malla_Clone[i,j] = fill_clone;
                 }}
  
         }
@@ -88,7 +88,7 @@ namespace WpfApplication2
             {
                 for (int j = 0; i < x; j++)
                 {
-                    if (matriz_malla[j, i].GetVida() == true);
+                    if (matriz_malla[i, j].GetVida() == true);
                     numeroTotalDeVivos++;
                 }
             }
@@ -211,12 +211,12 @@ namespace WpfApplication2
                 for (int j = 0; j < x; j++)
                 {
 
-                    matriz_malla_Clone[j, i].SetVecinosVivos(NumeroDeVecinosVivos(j, i));  // gusrada # de veisn en el clone  
+                    matriz_malla_Clone[i, j].SetVecinosVivos(NumeroDeVecinosVivos(i, j));  // gusrada # de veisn en el clone  
 
                     
                     // origin te valor viu mort // clone te vius i veins
 
-                    matriz_malla[j, i].ActualizarCelda(matriz_malla_Clone[j,i].GetVida(), matriz_malla_Clone[j,i].GetVecinosVivos()); //need clonar
+                    matriz_malla[i, j].ActualizarCelda(matriz_malla_Clone[i, j].GetVida(), matriz_malla_Clone[i, j].GetVecinosVivos()); //need clonar
                   
                 }
             }
