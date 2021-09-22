@@ -11,7 +11,7 @@ namespace WpfApplication1
 
        
         bool viva = false;  // PODRIEM TREURE
-        int vecinos_vivos;
+        int vecinos_vivos=0;
 
         Normas norma1= new Normas();
         

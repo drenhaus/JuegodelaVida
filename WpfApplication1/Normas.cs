@@ -23,13 +23,8 @@ namespace NormasJuego
             { this.estado_futuro_viva = true; }
 
 
-            else if ((estado_actual_viva == false) && (vecinosVIUS == 3))
+            if ((estado_actual_viva == false) && (vecinosVIUS == 3))
             { this.estado_futuro_viva = true; }
-
-            else
-            {
-                this.estado_futuro_viva = false;
-            }
 
             return this.estado_futuro_viva;
         }
