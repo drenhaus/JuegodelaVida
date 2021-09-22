@@ -55,13 +55,12 @@ namespace WpfApplication1
 
         }
 
-        
         private void rectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Rectangle a = (Rectangle)sender;
             a.Fill = new SolidColorBrush(Colors.Black);
             Point p = (Point)a.Tag;
-            matriz_celdas.SetVidaDeCelda(Convert.ToInt32(p.Y), Convert.ToInt32(p.X), true);
+            matriz_celdas.SetVidaDeCelda(Convert.ToInt32(p.X), Convert.ToInt32(p.Y), true);
             
           
 
@@ -71,10 +70,18 @@ namespace WpfApplication1
         private void button3_Click(object sender, RoutedEventArgs e) // crear rejilla
         {
             button1.IsEnabled = true;
-
-            x = Convert.ToInt32(TextBoxX.Text);
-            y = Convert.ToInt32(TextBoxY.Text);
-            matriz_celdas.SetNumeroDeFilasYColumnas(y, x);
+            try
+            {
+                x = Convert.ToInt32(TextBoxX.Text);
+                y = Convert.ToInt32(TextBoxY.Text);
+                matriz_celdas.SetNumeroDeFilasYColumnas(y, x);
+            }
+            catch
+            {
+                x = 10;
+                y=10;
+                matriz_celdas.SetNumeroDeFilasYColumnas(y, x);
+            }
                      
          
 
@@ -120,8 +127,7 @@ namespace WpfApplication1
             {
                 for (int j = 0; j < x; j++)
                 {
-                    matriz_celdas.NumeroDeVecinosVivos(i, j);
-                    
+ 
                     if (matriz_celdas.DameElEstadoDe(i,j) == false)
                     { casillas[i, j].Fill = new SolidColorBrush(Colors.Gray); }
                     if (matriz_celdas.DameElEstadoDe(i, j) == true)

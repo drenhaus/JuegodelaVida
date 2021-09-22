@@ -17,7 +17,7 @@ namespace WpfApplication2
         int contadorVecinosVivos;
         Celda[,] matriz_malla;
 
-        Normas norma1 = new Normas();
+        Normas norma1 = new Normas(); //   MIRAR
 
         public Celda[,] GetMatriz()
         {
@@ -32,20 +32,23 @@ namespace WpfApplication2
             
             this.matriz_malla = new Celda [y, x];
 
-            Celda fill = new Celda(); // rellenamos la matriz con celdas
-            fill.SetVida(false);
+           
+           // fill.SetVida(false);  // mitrara treure esta a celda
 
             for (int i = 0; i < y; i++)
                 for (int j = 0; j < x; j++)
                 {{
+                    Celda fill = new Celda(); // rellenamos la matriz con celdas
                     matriz_malla[i,j]=fill;
 
                 }}
  
         }
 
-        public void SetVidaDeCelda(int fila, int columna, bool vida)
+        public void SetVidaDeCelda(int fila, int columna, bool vida) // ERRORSS
         {
+            //this.matriz_malla[1, 1].SetVida(vida);
+            
             matriz_malla[fila, columna].SetVida(vida);
         
         }
@@ -73,7 +76,7 @@ namespace WpfApplication2
         }
 
 
-        public void NumeroDeVecinosVivos(int Fila, int Columna)
+        public int NumeroDeVecinosVivos(int Fila, int Columna)
         {
 
             contadorVecinosVivos = 0;
@@ -170,9 +173,9 @@ namespace WpfApplication2
             catch
             { }
 
-            
-            matriz_malla[Fila, Columna].SetVecinosVivos(contadorVecinosVivos);
-            norma1.SetVecinosVivos(contadorVecinosVivos);
+            return contadorVecinosVivos;
+           // matriz_malla[Fila, Columna].SetVecinosVivos(contadorVecinosVivos);
+           //norma1.SetVecinosVivos(contadorVecinosVivos);
             
 
         }
@@ -181,12 +184,13 @@ namespace WpfApplication2
 
         public void MallaFutura()
         {
-
+            
             for (int i = 1; i < x; i++)
             {
                 for (int j = 1; j < y; j++)
                 {
-                    
+
+                    matriz_malla[j, i].SetVecinosVivos(NumeroDeVecinosVivos(j, i));
                     matriz_malla[j, i].ActualizarCelda();
                   
                 }
