@@ -11,9 +11,9 @@ namespace WpfApplication1
 
        
         bool viva = false;
-        int vecinos_vivos;
-        
+        int vecinos_vivos=0;
 
+        Normas norma1= new Normas();
         
        
         public void SetVida(bool vida)
@@ -28,7 +28,7 @@ namespace WpfApplication1
         public void SetVecinosVivos(int num)
         { this.vecinos_vivos = num; }
 
-        public void ActualizarCelda(Normas norma1)
+        public void ActualizarCelda()
         {
             this.viva = norma1.ActualizarVida(this.viva, this.vecinos_vivos);
         }

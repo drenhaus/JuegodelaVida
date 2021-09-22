@@ -11,6 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApplication1;
+using NormasJuego;
+using WpfApplication2;
 
 namespace WpfApplication1
 {
@@ -18,8 +21,13 @@ namespace WpfApplication1
     public partial class MainWindow : Window
     {
 
-       
 
+        Rectangle[,] casillas; // Matriz donde guardaremos todos los rectangulos para poder recorrerlos
+        int x;
+        int y;
+        Malla matriz_celdas= new Malla();
+       
+      
 
         public MainWindow()
         {
@@ -27,7 +35,103 @@ namespace WpfApplication1
 
         }
 
-       
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e) // mostrar reglas
+        {
+
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e) // guardar fichero
+        {
+
+        }
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e) // cargar fichero
+        {
+
+        }
+
         
+        private void rectangle_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Rectangle a = (Rectangle)sender;
+            a.Fill = new SolidColorBrush(Colors.Black);
+            Point p = (Point)a.Tag;
+            matriz_celdas.SetVidaDeCelda(Convert.ToInt32(p.Y), Convert.ToInt32(p.X), true);
+            
+          
+
+        } // pintar de negro las seleccionadas
+
+
+        private void button3_Click(object sender, RoutedEventArgs e) // crear rejilla
+        {
+            button1.IsEnabled = true;
+
+            x = Convert.ToInt32(TextBoxX.Text);
+            y = Convert.ToInt32(TextBoxY.Text);
+            matriz_celdas.SetNumeroDeFilasYColumnas(y, x);
+                     
+         
+
+            casillas = new Rectangle[y, x];
+
+            canvas1.Height = y * 15;
+            canvas1.Width = x * 15;
+
+            // Bucle para crear los rectangulos
+            for (int i = 0; i < y; i++)
+                for (int j = 0; j < x; j++)
+                {
+                    Rectangle b = new Rectangle();
+                    b.Width = 15;
+                    b.Height = 15;
+                    b.Fill = new SolidColorBrush(Colors.Gray);
+                    b.StrokeThickness = 0.5;
+                    b.Stroke = Brushes.Black;
+                    canvas1.Children.Add(b);
+
+                    // Posicion del cuadrado
+                    Canvas.SetTop(b, (i - 1) * 15);
+                    Canvas.SetLeft(b, (j - 1) * 15);
+                    b.Tag = new Point(i, j);
+
+                    b.MouseDown += new MouseButtonEventHandler(rectangle_MouseDown);
+
+                    casillas[i, j] = b;
+                }
+
+
+
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e) // simular paso a paso
+        {
+
+
+            matriz_celdas.MallaFutura(); // actualizamos
+
+            // volvemos a pintar los rectangulos
+            for (int i = 0; i < y; i++)
+            {
+                for (int j = 0; j < x; j++)
+                {
+                    matriz_celdas.NumeroDeVecinosVivos(i, j);
+                    
+                    if (matriz_celdas.DameElEstadoDe(i,j) == false)
+                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Gray); }
+                    if (matriz_celdas.DameElEstadoDe(i, j) == true)
+                    { casillas[i, j].Fill = new SolidColorBrush(Colors.Black); }
+
+                }
+            }
+
+
+        }
     }
 }
+

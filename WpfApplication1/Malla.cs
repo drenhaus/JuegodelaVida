@@ -3,29 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NormasJuego;
+using WpfApplication1;
 
-namespace WpfApplication1
+namespace WpfApplication2
 {
     class Malla
     {
-        int x; //numero de colummnas
-        int y; //numero de filas
+        int x=0; //numero de colummnas
+        int y=0; //numero de filas
 
 
         int numeroTotalDeVivos;
         int contadorVecinosVivos;
         Celda[,] matriz_malla;
 
+        Normas norma1 = new Normas();
 
-
-
-
-
-        public void SetNumeroDeFilasYColumnas(int YCord, int XCord)
+        public Celda[,] GetMatriz()
         {
-            this.y = YCord;
-            this.x = XCord;
-            matriz_malla = new Celda[y, x];
+            return this.matriz_malla;
+        }
+
+
+        public void SetNumeroDeFilasYColumnas(int fila, int columna)
+        {
+            this.y = fila;
+            this.x = columna;
+            
+            this.matriz_malla = new Celda [y, x];
+
+            Celda fill = new Celda(); // rellenamos la matriz con celdas
+            fill.SetVida(false);
+
+            for (int i = 0; i < y; i++)
+                for (int j = 0; j < x; j++)
+                {{
+                    matriz_malla[i,j]=fill;
+
+                }}
+ 
+        }
+
+        public void SetVidaDeCelda(int fila, int columna, bool vida)
+        {
+            matriz_malla[fila, columna].SetVida(vida);
+        
         }
 
 
@@ -51,7 +73,7 @@ namespace WpfApplication1
         }
 
 
-        public int NumeroDeVecinosVivos(int Fila, int Columna)
+        public void NumeroDeVecinosVivos(int Fila, int Columna)
         {
 
             contadorVecinosVivos = 0;
@@ -148,20 +170,25 @@ namespace WpfApplication1
             catch
             { }
 
-            return contadorVecinosVivos;
+            
+            matriz_malla[Fila, Columna].SetVecinosVivos(contadorVecinosVivos);
+            norma1.SetVecinosVivos(contadorVecinosVivos);
+            
 
         }
 
 
 
-        public void MallaFutura(Normas norma2)
+        public void MallaFutura()
         {
 
-            for (int i = 0; i < x; i++)
+            for (int i = 1; i < x; i++)
             {
-                for (int j = 0; i < y; j++)
+                for (int j = 1; j < y; j++)
                 {
-                    matriz_malla[j, i].ActualizarCelda(norma2);
+                    
+                    matriz_malla[j, i].ActualizarCelda();
+                  
                 }
             }
 
