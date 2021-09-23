@@ -229,3 +229,4 @@ C:\Users\Dren\Downloads\EL JUEGO DE LA VIDA_FINAL\EL JUEGO DE LA VIDA_FINAL\WpfA
 C:\Users\Dren\Downloads\EL JUEGO DE LA VIDA_FINAL\EL JUEGO DE LA VIDA_FINAL\WpfApplication1\obj\x86\Debug\WpfApplication1.Form1.resources
 C:\Users\Dren\Downloads\EL JUEGO DE LA VIDA_FINAL\EL JUEGO DE LA VIDA_FINAL\WpfApplication1\obj\x86\Debug\WpfApplication1.Properties.Resources.resources
 C:\Users\Dren\Downloads\EL JUEGO DE LA VIDA_FINAL\EL JUEGO DE LA VIDA_FINAL\WpfApplication1\obj\x86\Debug\WpfApplication1.csproj.GenerateResource.Cache
+C:\Users\Dren\Documents\SIM\JdlV\WpfApplication1\obj\x86\Debug\WpfApplication1.Form1.resources
